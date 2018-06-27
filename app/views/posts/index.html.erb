@@ -15,15 +15,23 @@
     </thead>
     <tbody>
       <% @posts.each do |post| %>
-        <tr>
+        <!-- 각 행마다 링크 연결 -->
+        <tr class='clickable-row' data-href='/posts/<%= post.id %>'>
           <th scope="row"><%= post.id %></th>
           <td><%= post.title %></td>
           <td><%= post.user.email %></td>
           <td><%= post.created_at %></td>
-          <td><%= link_to '<i class="fas fa-edit"></i>'.html_safe, post%></td>
         </tr>
       <% end %>
     </tbody>
   </table>
   <%= paginate @posts =%>
 </div>
+<!-- 테이블 행에 링크를 연결하기 위한 함수 -->
+<script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+  });
+</script>

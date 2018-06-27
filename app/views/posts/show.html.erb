@@ -3,7 +3,7 @@
 <%= @post.title %>
 <%= @post.content %>
 
-<% if can? :edit, @psts %>
+<% if can? :edit, @post %>
   <%= link_to '수정하기', edit_post_path(@post) %>
 <% end %>
 <% if can? :destroy, @post %>

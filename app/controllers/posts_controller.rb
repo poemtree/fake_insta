@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
 
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: :index
+
   # cancancan을 사용하기 위한 권한 설정?
   load_and_authorize_resource
 
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: :index
   def index
     @posts = Post.order(created_at: :desc).page(params[:page]).per(3)
     respond_to do |format|
@@ -27,8 +28,8 @@ class PostsController < ApplicationController
         format.html { redirect_to '/', notice: "글 작성을 완료하였습니다." }
       else
         # flash[:alert] = "글 작성에 실패하였습니다."
-#        format.html {render :new}
-#        format.json {render json: @post.errors}
+        format.html {render :new}
+        format.json {render json: @post.errors}
       end
     end
     # redirect_to address
@@ -42,9 +43,14 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.update(post_params)
-    redirect_to "/posts/#{@post.id}"
-
+    respond_to do |format|
+      if @post.update(post_params)
+        format.html { redirect_to @post, notice: "수정을 완료하였습니다."}
+      else
+        format.html { render :edit }
+        format.json { render json: @post.errors }
+      end
+    end
   end
 
   def destroy
