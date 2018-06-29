@@ -1,0 +1,7 @@
+// escape_javascript("...") 는 html로 변환 되면서 발생하는 따옴표 문제를 해결해준다!!
+// 하지만 `...` 백쿼터 를 쓰면 알아서 처리해주도록 변경되었다!
+$('div#comments').append(`<p>
+  <%= @comment.content %>
+  <%= link_to '<i class="fas fa-trash-alt"> Delete</i>'.html_safe, destroy_comment_path(@comment.id), method: :delete, remote: true, data: {confirm: '댓글을 삭제하시겠습니까?'}, class:"delete_comment" %>
+</p>
+<hr />`)

@@ -1,24 +1,143 @@
-<h1>글 봐!!</h1>
-<%= @post.id %>번째 글
-<%= @post.title %>
-<%= @post.content %>
+<div class="row align-items-center">
+  <div class="col-7">
+    <h3><%= @post.id %>. <%= @post.title %></h3>
+  </div>
+  <div class="col-3">
+    <a href="/" class="text-dark"><i class="fas fa-undo-alt"> Back</i></a>
+  </div>
+</div>
+<div class="ml-1">
+  <textarea readonly rows="15" cols="120"><%= @post.content %></textarea>
+  <div class="row align-tiems-center">
+    <div class="col-sm">
+      <p>Created at : <%= @post.created_at %></p>
+    </div>
+    <div class="col-sm">
+      <p>Last updated at : <%= @post.updated_at %></p>
+    </div>
+  </div>
+</div>
 
 <% if can? :edit, @post %>
   <%= link_to '수정하기', edit_post_path(@post) %>
 <% end %>
 <% if can? :destroy, @post %>
-  <%= link_to '삭제하기', @post, method: :delete, data: {confirm: '너지울거야?'} %>
+  <%= link_to '삭제하기', @post, method: :delete, data: {confirm: '글을 삭제하시겠습니까?'} %>
 <% end %>
 <hr />
 
-<form action="/posts/<%= @post.id%>/comments" method="post">
+<form class="comment_form" action="/posts/<%= @post.id%>/comments" method="post" data-remote="true">
   <input type="text" name="content" /><br />
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <input type="submit" />
+  <input type="submit" value="작성"/>
 </form>
 <hr />
+<!-- -->
+<div id="comments">
+  <% @comments.each do |comment| %>
+    <p>
+      <%= comment.content %>
+      <!-- method: :delete 를 지워야 한다.-->
+      <%= link_to '<i class="fas fa-trash-alt"> Delete</i>'.html_safe, destroy_comment_path(comment.id), method: :delete, remote: true, data: {confirm: '댓글을 삭제하시겠습니까?'}, class:"delete_comment" %>
+    </p>
+    <hr />
+  <% end %>
+</div>
+<script>
+  // 작성을 할 것인지 확인하도록 eventListener등록
+  $('input[type="submit"]').on('click', function(e) {
+    var response = confirm("작성 하시겠습니까?");
+    if (!response) {
+      // e.preventDefault();
+      e.stopImmediatePropagation();
+      return false;
+    }
+  });
 
-<% @comments.each do |comment| %>
-  <%= comment.content %>
-  <hr />
-<% end %>
+  // 글자수를 확인하는 함수
+  function checkContentLen(e) {
+    var content = $('input[name="content"]').val();
+    if (content.length < 1) {
+      alert('1글자 이상 작성해 주세요');
+      e.stopImmediatePropagation();
+      return false;
+    }
+  };
+
+  // 글자수를 확인하도록 eventListener등록
+  $('input[type="submit"]').on('click', checkContentLen);
+
+  $('.comment_form').on('ajax:success', function(){
+    $('.comment_form > input[name="content"]').val('');
+  });
+</script>
+
+<!-- ajax를 script로 작성하는 예시..
+<script>
+  // 작성을 할 것인지 확인하도록 eventListener등록
+  $('input[type="submit"]').on('click', function(e) {
+    var response = confirm("작성 하시겠습니까?");
+    if (!response) {
+      e.preventDefault(); // 이벤트 동작을 멈춘다.. 그리고 밑에 새로운 동작을 할 수 있다.
+      // e.stopImmediatePropagation(); // elemente의 다른 모든 이벤트 중지
+      // return false; 도 가능하지만.. return 이기 때문에 다른 작업은 못 한다.
+    }
+  });
+
+  // 글자수를 확인하는 함수
+  function checkContentLen(e) {
+    var content = $('input[name="content"]').val();
+    if (content.length < 1) {
+      alert('1글자 이상 작성해 주세요');
+      e.stopImmediatePropagation();
+      return false;
+    }
+  };
+
+  // 글자수를 확인하도록 eventListener등록
+  $('input[type="submit"]').on('click', checkContentLen);
+
+  // 매우 중요
+  // ajax를 submit의 eventListener로 등록하는 작업이 글자 수를 체크하는 스크립트 아래에 작성 되어야
+  // 정상적으로 글자수를 체크한다!
+  // 만약 순서를 다르게 하고 싶다면 ajax를 함수로 만들어서 글자수 체크 후 실행되도록 작성해야 한다!
+
+  $('.comment_form > input[type="submit"]').on('click', function(e) {
+    // 이동하지 못하도록..?
+    e.preventDefault();
+    $.ajax({
+       url: $('.comment_form').attr('action')
+      ,type: "POST"
+      ,data: {content: $('.comment_form > input[name="content"]').val()
+              ,authenticity_token: $('[name="csrf-token"]').attr('content')
+            }
+      ,dataType: 'script'
+      ,success: function() {
+        $('.comment_form > input[name="content"]').val('')
+        alert('success')
+      }
+      ,error: function() {
+        alert('fail')
+      }
+    });
+  });
+
+  $('.delete_comment').on('click', function(e) {
+    // 이동하지 못하도록..?
+    e.preventDefault();
+    $.ajax({
+      url: this.href // event를 넘겨주는 객체에 this로 접근할 수 있다
+      ,type: "DELETE"
+      ,data: {authenticity_token: $('[name="csrf-token"]').attr('content')}
+      ,dataType: "script"
+      ,success: function() {
+        alert("Complete to delete")
+      }
+      ,error: function() {
+        alert("Fail to delete")
+      }
+    });
+  });
+
+</script>
+-->
