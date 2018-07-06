@@ -1,0 +1,3 @@
+var like_btn = $('a[data-id=<%=@post_id%>]');
+like_btn.next().text(<%=Post.find(@post_id).liked_users.count%>);
+like_btn.replaceWith(`<%= link_to '<i class="fas fa-thumbs-up"></i>'.html_safe, "posts/#{@post_id}/dislike", data: {id: @post_id}, remote: true, method: :delete, class: "text-dark like_button" %>`);
