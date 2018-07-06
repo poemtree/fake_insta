@@ -21,6 +21,13 @@
           <td><%= post.title %></td>
           <td><%= post.user.email %></td>
           <td><%= post.created_at %></td>
+          <td>
+            <% if post.liked_users.include?(current_user) %>
+              <%= link_to '<i class="fas fa-thumbs-up"></i>'.html_safe, "/posts/#{post.id}/dislike",  class: "text-dark like_button" %>
+            <% else %>
+              <%= link_to '<i class="far fa-thumbs-up"></i>'.html_safe, "/posts/#{post.id}/like",  class: "text-dark like_button" %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -33,5 +40,8 @@
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
     });
+    $(".like_button").on("click", function(e){
+      event.stopPropagation();
+    })
   });
 </script>
