@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'users/sessions' }
   root 'posts#index'
   resources :posts
+  post '/tinymce_assets' => 'tinymce_assets#create'
   post '/posts/:post_id/comments' => 'comments#create'
   delete '/comments/:comment_id' => 'comments#destroy', as: 'destroy_comment'
   put '/posts/:post_id/like' => 'likes#create'
