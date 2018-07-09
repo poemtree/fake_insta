@@ -6,7 +6,7 @@ gem 'aws-sdk-s3'
 gem 'figaro'
 
 # 클라우드 서버
-gem 'fog'
+gem 'fog-aws'
 
 #회원관리
 gem 'cancancan', '~> 2.0'
