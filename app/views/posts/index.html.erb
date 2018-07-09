@@ -37,12 +37,12 @@
 </div>
 <!-- 테이블 행에 링크를 연결하기 위한 함수 -->
 <script>
-  // jQuery(document).ready(function($) {
-  //   $(".clickable-row").click(function() {
-  //       window.location = $(this).data("href");
-  //   });
-  //   $(".like_button").on("click", function(e){
-  //     e.stopPropagation();
-  //   })
-  // });
+  jQuery(document).ready(function($) {
+     $(".clickable-row").click(function() {
+         window.location = $(this).data("href");
+     });
+     $(".like_button").on("click", function(e){
+       e.stopPropagation();
+     })
+   });
 </script>

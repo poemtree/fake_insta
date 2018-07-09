@@ -7,7 +7,11 @@
   </div>
 </div>
 <div class="ml-1">
-  <textarea readonly rows="15" cols="120"><%= @post.content %></textarea>
+  <div>
+    <textarea readonly rows="15" cols="120">
+      <%= @post.content %>
+    </textarea>
+  </div>
   <div class="row align-tiems-center">
     <div class="col-sm">
       <p>Created at : <%= @post.created_at %></p>
@@ -15,6 +19,9 @@
     <div class="col-sm">
       <p>Last updated at : <%= @post.updated_at %></p>
     </div>
+  </div>
+  <div>
+    <%= image_tag(@post.img, :alt => "rss feed") %>
   </div>
 </div>
 
