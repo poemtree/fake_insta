@@ -10,8 +10,8 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require tinymce-jquery
 //= require jquery
 //= require jquery_ujs
+//= require tinymce-jquery
 //= require turbolinks
 //= require_tree .

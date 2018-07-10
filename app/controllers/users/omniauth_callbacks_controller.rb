@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  def facebook
+    p "*********************************************"
+    p request.env['omniauth.auth']
+    p "*********************************************"
+    auth = env['omniauth.auth']
+    @user = User.find_auth(auth)
+    if @user.persisted?
+        sign_in_and_redirect @user, event: :authentication
+    else
+      redirect_to new_user_registration_path
+    end
+  end
+
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 

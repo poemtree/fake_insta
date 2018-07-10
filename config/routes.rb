@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: 'users/sessions', omniauth_callback: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    omniauth_callbacks: 'users/omniauth_callbacks' }
   root 'posts#index'
   resources :posts
   post '/tinymce_assets' => 'tinymce_assets#create'
