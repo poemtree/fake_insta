@@ -24,7 +24,11 @@
   </div>
   <div class="mr-2">
     <% if user_signed_in? %>
-      <%= gravatar(current_user) %>
+      <% if current_user.profile_img.nil? %>
+        <%= gravatar(current_user) %>
+      <% else %>
+        <%= image_tag(current_user.profile_img, :alt => "No Image") %>
+      <% end %>
       <span class="text-white"><%= current_user.email %></span>
       <%= link_to '<i class="fas fa-sign-out-alt"> 로그아웃</i>'.html_safe, destroy_user_session_path, method: :delete, class: 'text-white ml-1' %>
     <% else %>

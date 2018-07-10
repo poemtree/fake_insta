@@ -4,6 +4,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
+  def info
+    if request.patch? && params[:user]
+      if current_user.update(params.require(:user).permit(:email))
+        sign_in(current_user, bypass: true)
+        redirect_to '/', notice: "이메일 정보가 등록 되었습니다."
+      end
+    end
+  end
+
   # GET /resource/sign_up
   # def new
   #   super

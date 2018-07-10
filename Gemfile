@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
-# facebook Login
+# Kakao Login
+gem 'omniauth-kakao', :git => 'https://github.com/hcn1519/omniauth-kakao'
+
+# Facebook Login
 gem 'omniauth-facebook'
 
 gem 'aws-sdk-s3'

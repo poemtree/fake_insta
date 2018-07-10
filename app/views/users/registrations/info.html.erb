@@ -1,0 +1,5 @@
+<%= simple_form_for(current_user, url: users_info_path) do |f| %>
+<%= f.input :email, autofocus: true %>
+<%= f.button :submit, class: 'text-dark' do %>
+  <i class="fas fa-pen"></i> <% end %>
+<% end %>
