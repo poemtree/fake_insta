@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# facebook Login
+gem 'omniauth-facebook'
+
 gem 'aws-sdk-s3'
 
 # 환경변수 관리
